@@ -4,7 +4,7 @@ TARGETS=fuse_hello
 BUILDROOT_OUTPUT=$(BUILDROOT)/output
 CC := $(TARGET_CROSS)gcc
 AS := $(TARGET_CROSS)as
-DESTDIR := $(BUILDROOT_OUTPUT)/target/user/bin
+DESTDIR := $(BUILDROOT_OUTPUT)/target/usr/bin
 STAGING_DIR ?= $(BUILDROOT_OUTPUT)/staging
 
 override CFLAGS += -Wall -Werror -g -Os -D_GNU_SOURCE
