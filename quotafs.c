@@ -18,6 +18,15 @@ static unsigned long cur_size = 0;
 static char path_max_size[MAX_PATH] = "/total_size";
 static char path_cur_size[MAX_PATH] = "/used_size";
 
+static void usage()
+{
+	printf("Usage: quota --src source_dirctory --size quota_size mount_point [OPTIONS]\n");
+	printf("Mount a user space quota filesytem.\n\n");
+	printf(" -h, show fuse option help\n");
+	printf(" --src, the source dircotry is going to setup the quota\n");
+	printf(" --size, the size of the quota\n");
+}
+
 static int get_file_size(char *filename, unsigned long *filesize)
 {
 	struct stat f_stat;
@@ -376,7 +385,7 @@ static struct fuse_operations quotafs_oper = {
 
 int main(int argc, char *argv[])
 {
-	int skip_args = 0, i = 0, pos = 0;
+	int skip_args = 0, i = 0, pos = 0, show_help = 0;
 	char** fuse_args = alloca(sizeof(char*) * argc);
 	while (i < argc)
 	{
@@ -389,19 +398,24 @@ int main(int argc, char *argv[])
 			i +=2;
 			skip_args += 2;
 		} else {
+			if (strcmp(argv[i], "-h") == 0)
+				show_help = 1;
 			fuse_args[pos++] = argv[i++];
 		}
 	}
 	if (src == NULL || max_size == 0) {
-		fprintf(stderr, "Source dirtory (--src) or max file system size (--size) are not specific!\n");
+		usage();
 		return 1;
 	}
 
 	umask(0);
-	if (get_dir_size(src, &cur_size))
-		return -1;
-	if (cur_size >= max_size) {
-		printf("Warning: Current size is overload\n");
+	if (!show_help) {
+		if (get_dir_size(src, &cur_size))
+			return -1;
+		if (cur_size >= max_size)
+			printf("Warning: Currently the used space is bigger than the quota size!\n");
+	} else {
+		usage();
 	}
 	return fuse_main(pos, fuse_args, &quotafs_oper, NULL);
 }
