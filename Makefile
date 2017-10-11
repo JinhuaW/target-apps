@@ -10,7 +10,7 @@ STAGING_DIR ?= $(BUILDROOT_OUTPUT)/staging
 override CFLAGS += -Wall -Werror -g -Os -D_GNU_SOURCE
 override CFLAGS += -O2
 
-fuse_hello: override LDFLAGS += -lfuse
+quotafs: override LDFLAGS += -lfuse
 
 all: build install
 
