@@ -1,5 +1,5 @@
 
-TARGETS=fuse_hello
+TARGETS=quotafs
 
 BUILDROOT_OUTPUT=$(BUILDROOT)/output
 CC := $(TARGET_CROSS)gcc
