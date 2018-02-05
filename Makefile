@@ -1,5 +1,5 @@
 
-TARGETS=quotafs
+TARGETS=quotafs test_irq
 
 BUILDROOT_OUTPUT=$(BUILDROOT)/output
 CC := $(TARGET_CROSS)gcc
@@ -11,6 +11,7 @@ override CFLAGS += -Wall -Werror -g -Os -D_GNU_SOURCE
 override CFLAGS += -O2
 
 quotafs: override LDFLAGS += -lfuse
+test_irq: override LDFLAGS += -luio
 
 all: build install
 
