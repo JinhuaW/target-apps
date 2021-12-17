@@ -1,5 +1,5 @@
 
-TARGETS=quotafs test_irq
+TARGETS=quotafs test_irq dump_pagemap mmap_test
 
 BUILDROOT_OUTPUT=$(BUILDROOT)/output
 CC := $(TARGET_CROSS)gcc
